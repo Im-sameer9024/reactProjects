@@ -13,8 +13,8 @@ const Card = ({id,image,name,info,price,removeTour}) => {
     let description = readmore ? info: `${info.substring(0,200)}...`
 
   return (
-    <div className='w-[350px] shadow-lg space-x-3 mx-auto p-4'>
-         <div className='w-[300px] mx-auto'>
+    <div className='w-[350px]  shadow-lg space-x-3 mx-auto p-4'>
+         <div className='w-[300px]  mx-auto'>
 
            <img className='w-[300px] h-[300px] mx-auto ' src={image}/>
            <div className='text-left'>

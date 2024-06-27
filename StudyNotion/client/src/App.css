@@ -1,0 +1,27 @@
+#darkBlue{
+    background-color: rgb(1, 1, 28);
+}
+
+#lightBlue{
+
+  background-color:rgb(1, 1, 28) ;
+  transition-property: all;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  
+}
+#lightBlue:hover{
+  cursor: pointer;
+  background-color: rgb(3, 3, 37);
+  box-shadow: 5px 5px 5px black;
+}
+
+body{
+  overflow-x: hidden;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+

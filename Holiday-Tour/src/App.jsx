@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
 import Tours from './components/Tours'
 import data from './data'
+import { IoCartSharp } from "react-icons/io5";
+import { FaUser } from "react-icons/fa";
+
+
 
 const App = () => {
 
@@ -22,8 +26,8 @@ const App = () => {
   }
 
   return (
-    <div className='w-[100vw] h-[100vh] mt-5 text-center '>
-      <span className='text-[40px] font-bold outline-dashed outline-blue-600 p-3 outline-[5px]'>Holiday Tours With Group</span>
+    <div className='w-[100vw] h-[100vh] mt-5 text-center flex flex-col  items-center '>
+      <span className=' sm:text-[20px] md:text-[40px] font-bold outline-dashed outline-blue-600 p-3 outline-[5px]'>Holiday Tours With Group</span>
       <Tours tours={tours} removeTour={removeTour}></Tours>
     </div>
   )

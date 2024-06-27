@@ -31,7 +31,7 @@ const Testimonial = ({reviews}) => {
     setIndex(randomIndex);
     }
   return (
-    <div>
+    <>
           <div  className=' w-[600px] h-[400px] bg-white shadow-2xl flex flex-col justify-center items-center relative  gap-4'>
               <Card review={reviews[index]} />
               
@@ -45,7 +45,7 @@ const Testimonial = ({reviews}) => {
               </div>
               <button onClick={surpriseHandler} className=' bg-violet-700 text-white font-bold px-6  py-1 rounded-md'>Surprise Me</button>
           </div>
-    </div>
+    </>
   )
 }
 
