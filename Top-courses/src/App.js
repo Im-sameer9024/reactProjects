@@ -19,6 +19,7 @@ const App = () => {
       let response = await fetch(apiUrl);
       let output = await response.json();
       ///output -> 
+      console.log(output.data)
       setCourses(output.data);
     }
     catch(error) {

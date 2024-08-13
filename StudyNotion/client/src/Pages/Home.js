@@ -1,8 +1,4 @@
-import React, { useState } from "react";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
-import slider1 from "../assets/img/slider1.jpg";
-import slider2 from "../assets/img/slider2.jpg";
-import slider3 from "../assets/img/carousel-1.jpg";
+import React from "react";
 import course1 from "../assets/img/cat-1.jpg";
 import course2 from "../assets/img/cat-2.jpg";
 import course3 from "../assets/img/cat-3.jpg";
@@ -19,13 +15,15 @@ import {
   FaTwitterSquare,
   FaInstagramSquare,
 } from "react-icons/fa";
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { RiGraduationCapFill } from "react-icons/ri";
 import { TfiWorld } from "react-icons/tfi";
 import { FaHome } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import FadeSlider from "../components/FadeSlider";
+
 
 
 const pageVariants = {
@@ -50,30 +48,6 @@ const pageTransition = {
 };
 
 const Home = () => {
-  const [index, setIndex] = useState(0);
-
-  const prevSlide = () => {
-    if (index - 1 < 0) {
-      setIndex(slides.length - 1);
-    } else {
-      setIndex(index - 1);
-    }
-  };
-
-  const nextSlide = () => {
-    if (index + 1 >= slides.length) {
-      setIndex(0);
-    } else {
-      setIndex(index + 1);
-    }
-  };
-
-  const slides = [{ url: slider2 }, { url: slider1 }, { url: slider3 }];
-
-  const navigate = useNavigate()
-
-  
-
   
 
   return (
@@ -87,48 +61,10 @@ const Home = () => {
       id="darkBlue"
     >
       {/* Slider  */}
-      <div
-        style={{ backgroundImage: `url(${slides[index].url})` }}
-        className=" w-11/12 h-[450px] my-6 mx-auto bg-cover bg-center rounded-2xl duration-500 relative group"
-      >
-        <div className=" w-full h-full absolute bg-darkBlue/50"></div>
-        <div className=" absolute w-9/12 lg:w-5/12  top-[50%] translate-y-[-50%] -translate-x-0 left-[1rem] lg:space-y-5">
-          <h3 className=" text-[0.5rem] md:text-[1rem] lg:text-[1.5rem] font-bold text-sky-300 shadow-2xl">
-            BEST ONLINE COURSES
-          </h3>
-          <h1 className=" text-[1rem] md:text-[1.5rem] font-smallHeading lg:text-[2rem]">
-            The Best Online Learning Platform
-          </h1>
-          <p className=" font-content text-[1rem] md:text-[1.3rem]">
-            StudyNotion is the ultimate learning platform, offering a seamless
-            blend of engaging content, interactive tools, and a supportive
-            community to elevate your educational journey.
-          </p>
-          <div className=" mt-4 flex gap-4 w-full">
-            <Button onClick={()=>navigate("/readmore")} variant="contained">Read More</Button>
-            <Button
-            onClick={()=> navigate('/signup')}
-              variant="contained"
-              sx={{
-                color: "black",
-                backgroundColor: "white",
-                ":hover": { backgroundColor: "rgb(186,177,153)" },
-              }}
-            >
-              Join Now
-            </Button>
-          </div>
-        </div>
-        {/* Left Arrow */}
-        <div className=" hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-          <BsChevronCompactLeft onClick={prevSlide} size={30} />
-        </div>
-        {/* Right Arrow */}
-        <div className=" hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-          <BsChevronCompactRight onClick={nextSlide} size={30} />
-        </div>
+      <div className=" w-10/12 mx-auto h-auto my-[3rem]">
+      <FadeSlider/>
       </div>
-
+      
       <div data-aos="fade-up" className="w-11/12  gap-4 flex justify-evenly mx-auto md:my-[4rem]">
         {/* card-1  */}
         <div
@@ -158,7 +94,7 @@ const Home = () => {
         </div>
         {/* card-3  */}
         <div className="w-2/12 flex flex-col items-center p-3 box-border" id="lightBlue">
-          <FaHome  className=" text-blue-500 text-[30px] lg:text-[50px] md:text-[40px]" />
+          <FaHome className=" text-blue-500 text-[30px] lg:text-[50px] md:text-[40px]" />
           <h2 className=" md:text-[0.7rem] text-[0.5rem] text-sky-300 font-smallHeading text-center lg:text-[1.2rem]">
             Skilled Instructors
           </h2>
@@ -197,7 +133,7 @@ const Home = () => {
         </h1>
 
         {/* Courses Section  */}
-        <div  className="w-full flex md:my-[4rem] my-[2rem]">
+        <div className="w-full flex md:my-[4rem] my-[2rem]">
           {/* left section  */}
           <div data-aos="fade-up" className=" w-7/12 flex flex-col pl-2">
             <div className="box relative">
@@ -226,7 +162,7 @@ const Home = () => {
                   />
                   <div className=" bg-white text-black absolute bottom-1 right-1 p-1 flex flex-col justify-center items-center">
                     <h2 className="text-[0.3rem] md:text-[0.8rem] font-smallHeading font-bold lg:text-[1.2rem]">
-                    Graphics Design
+                      Graphics Design
                     </h2>
                     <span className=" text-sky-400 text-[0.3rem] md:text-[0.6rem] lg:text-[0.9rem]">49 Courses</span>
                   </div>
@@ -273,7 +209,7 @@ const Home = () => {
       {/* Popular Courses  */}
       <div className="w-11/12 md:my-[4rem] mx-auto flex flex-col items-center py-[2rem]">
         {/* Heading  */}
-        <h1 data-aos="fade-up"  className=" flex gap-4 items-center text-[1rem] md:text-[1.5rem] lg:text-[2rem]">
+        <h1 data-aos="fade-up" className=" flex gap-4 items-center text-[1rem] md:text-[1.5rem] lg:text-[2rem]">
           <span className="flex flex-col gap-2 items-end ">
             <hr className=" w-[3rem] h-[0.2rem] bg-sky-400 rounded-lg" />
             <hr className=" w-[5rem] h-[0.2rem] bg-sky-400 rounded-lg" />
@@ -310,7 +246,7 @@ const Home = () => {
           </div>
           {/* card 2  */}
           <div data-aos="fade-up"
-           className=" text-black
+            className=" text-black
           w-3/12 bg-sky-200 flex flex-col items-center text-center"
           >
             <div className="box">
@@ -398,7 +334,7 @@ const Home = () => {
             <h1 className=" text-[0.6rem] md:text-[1rem] lg:text-[1.5rem] font-bold font-smallHeading">
               Harsh Mewara
             </h1>
-          <p className=" text-[0.5rem] md:text-[0.8rem] lg:text-[1.2rem] font-bold font-smallHeading">Web Developer</p>
+            <p className=" text-[0.5rem] md:text-[0.8rem] lg:text-[1.2rem] font-bold font-smallHeading">Web Developer</p>
           </div>
           {/* item-2  */}
           <div data-aos="fade-up"
@@ -414,13 +350,13 @@ const Home = () => {
               />
               <div className=" absolute flex bottom-0 bg-sky-200 right-[50%] gap-2 p-1 -translate-x-[-50%] ">
                 <span>
-                  <FaFacebookSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]"  />
+                  <FaFacebookSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]" />
                 </span>
                 <span>
-                  <FaInstagramSquare className=" text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]"  />
+                  <FaInstagramSquare className=" text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]" />
                 </span>
                 <span>
-                  <FaTwitterSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]"  />
+                  <FaTwitterSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]" />
                 </span>
               </div>
             </div>
@@ -444,7 +380,7 @@ const Home = () => {
               />
               <div className=" absolute flex bottom-0 bg-sky-200 right-[50%] gap-2 p-1 -translate-x-[-50%] ">
                 <span>
-                  <FaFacebookSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]"/>
+                  <FaFacebookSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]" />
                 </span>
                 <span>
                   <FaInstagramSquare className="  text-[0.6rem] md:text-[1rem] lg:text-[1.5rem]" />
@@ -536,12 +472,12 @@ const Home = () => {
           <div className="w-2/12">
             <h1 className=" text-[0.6rem] font-bold font-smallHeading md:text-[1.2rem] lg:text-[1.5rem]">Gallery</h1>
             <div className="grid grid-cols-3 grid-rows-2 gap-2">
-              <img src={course2} alt="" width={"68px"}/>
-              <img  src={course3} alt=""  width={"68px"} />
-              <img  src={course2} alt=""  width={"68px"} />
-              <img  src={course3} alt=""  width={"68px"} />
-              <img src={course2} alt=""  width={"68px"} />
-              <img  src={course3} alt=""   width={"68px"}/>
+              <img src={course2} alt="" width={"68px"} />
+              <img src={course3} alt="" width={"68px"} />
+              <img src={course2} alt="" width={"68px"} />
+              <img src={course3} alt="" width={"68px"} />
+              <img src={course2} alt="" width={"68px"} />
+              <img src={course3} alt="" width={"68px"} />
             </div>
           </div>
           {/* section-4  */}

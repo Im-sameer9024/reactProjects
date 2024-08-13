@@ -9,7 +9,7 @@ import Google from "../assets/pngwing.com.png"
 const Template = ({title,des1,des2,image,formtype,setIsLoggedIn}) => {
     
   return (
-    <div id='darkBlue' className='w-full h-auto justify-evenly mt-[5rem] mx-auto px-4 items-center sm:flex  '>
+    <div id='darkBlue' className='w-full justify-evenly my-[4rem] mx-auto px-4 items-center sm:flex pb-[6rem]  '>
 
     {/* Left Side  */}
          <div className='Left-Side sm:w-6/12 lg:w-4/12  w-full px-4 flex flex-col gap-4'>
@@ -33,8 +33,8 @@ const Template = ({title,des1,des2,image,formtype,setIsLoggedIn}) => {
 
      {/* Right Side  */}
          <div className='Right-Side w-5/12 relative hidden sm:block' >
-            <img src={frame} alt="Pattern" width={558} height={504}  loading='lazy'/>
-            <img src={image} alt="Student" width={558} height={504}  loading='lazy' className=' absolute top-[-15px] right-4'/>
+            <img src={frame} alt="Pattern" width={458} height={404}  loading='lazy'/>
+            <img src={image} alt="Student" width={458} height={404}  loading='lazy' className=' absolute top-[-15px] right-4'/>
          </div>
     </div>
   )

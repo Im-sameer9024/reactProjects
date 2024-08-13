@@ -28,7 +28,6 @@ const App = () => {
   return (
     <div className="w-[100vw] h-[100vh] pb-[5rem] text-white" id="darkBlue">
       <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route  exact path="/" element={<Home />} />
