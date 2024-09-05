@@ -1,0 +1,16 @@
+.no-border {
+  border-top:none !important; /* Remove border */
+  border-left: none !important;
+  border-right: none !important;
+  box-shadow: none !important; /* Remove outline on focus */
+  border-radius: 0% !important;
+  
+}
+
+.no-border:focus{
+  outline: none !important;
+  border-color:black;
+}
+
+
+
