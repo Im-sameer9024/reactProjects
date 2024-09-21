@@ -12,8 +12,8 @@ dbConnect()
 app.use(express.json())
 app.use(cors())
 app.use('/images',express.static("uploads"))
-app.use("/api/v1",food)
-app.use("/api/v1",user)
+app.use("/api",food)
+app.use("/api",user)
 
 
 app.get("/",(req,res)=>{
