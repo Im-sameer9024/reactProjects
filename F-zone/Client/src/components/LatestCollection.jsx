@@ -1,44 +1,42 @@
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { setLatestProducts } from "../redux/fetures/cartSlice.js"
-import ProductItem from "./ProductItem.jsx"
-
+import { useContext, useEffect, useState } from "react"
+import { ShopContext } from "../Context/ShopContext"
+import Title from "./Title"
+import ProductItem from "./ProductItem"
 
 export default function LatestCollection() {
 
-  const products = useSelector((state) => state.cart.products)
+  const { products } = useContext(ShopContext)
 
-  const latestProducts = useSelector((state) => state.cart.latestProducts)
-
-  const dispatch = useDispatch()
+  const [latestProducts, setLatestProducts] = useState([])
 
   useEffect(() => {
-    dispatch(setLatestProducts(products.slice(0, 10)))
-  }, [products, dispatch])
-
-
+    setLatestProducts(products.slice(0, 10))
+  }, [products])
 
   return (
-    <div className=" w-10/12 mx-auto my-[4rem]">
-      {/* Heading section  */}
-      <div>
-        <p className=" flex items-center justify-center text-[2.4rem] font-smallHeading">
-          <span>LATEST <b>COLLECTION</b></span>
-          <span className="w-10 border-black ml-2 border-[1px] "></span>
+    <div className="my-10 ">
+
+      {/* title  */}
+      <div className=" text-center py-8 text-3xl">
+        <Title text1={"LATEST"} text2={"COLLECTION"} />
+        <p className=" w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600 font-content ">
+          Our latest clothing collection blends timeless elegance with contemporary trends, designed to elevate your everyday wardrobe. Featuring a curated selection of premium fabrics, vibrant hues, and modern silhouettes, each piece is crafted to offer both comfort and style. Whether you’re looking for sophisticated workwear, casual weekend essentials, or standout pieces for special occasions, this collection promises versatility and flair. Embrace fashion that not only looks good but feels great, empowering you to express your individuality with confidence.
         </p>
-        <p className=" text-center font-content">Our latest clothing collection blends style and comfort, offering a wide range of timeless pieces for every occasion. From casual wear to elegant outfits, each item is thoughtfully designed with high-quality fabrics and attention to detail. Whether you&#39;re looking for classic staples or trendy new looks, our collection has something to complement every wardrobe. Discover fashion that not only looks great but feels just right!</p>
       </div>
 
-      {/* Latest Products  */}
-      <div className=" my-[5rem] grid grid-cols-5 gap-[2rem]">
+      {/* Rendering products  */}
+      <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
         {
+
           latestProducts.map((item, index) => {
             return (
-              <ProductItem key={index} id={item._id} price={item.price} name={item.name} image={item.image[0]} />
+              <ProductItem key={index} id={item._id} image={item.image} name={item.name} price={item.price} />
             )
           })
+          
         }
       </div>
+
     </div>
   )
 }

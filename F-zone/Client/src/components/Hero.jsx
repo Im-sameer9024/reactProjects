@@ -2,32 +2,29 @@ import { assets } from "../assets/assets";
 
 export default function Hero() {
   return (
-    <div className="mx-auto w-10/12 my-[2rem] md:flex md:flex-row border border-gray-400 rounded-md flex-col justify-between">
-      {/* Left section  */}
-      <div className="md:w-6/12 w-full font-content flex flex-col justify-center items-center">
+    <div className=" flex flex-col sm:flex-row border border-gray-400 ">
 
-        <div className=" py-[2rem]">
-          <p className=" flex items-center">
-            <span className="w-10 border-black mr-2 border-[1px] "></span>
-            <span>OUR BESTSELLERS</span>
-          </p>
+      {/* Hero Left Side  */}
+      <div className=" w-full sm:w-1/2 flex items-center justify-center py-10 sm:py-0">
+        <div className="text-[#414141]">
+          <div className="flex items-center gap-2">
+            <p className=" w-8 md:w-11 h-[2px] bg-[#414141]"></p>
+            <p className=" font-medium text-sm md:text-base font-smallHeading">OUR BESTSELLERS</p>
+          </div>
+          <h1 className=" text-3xl sm:py-3 lg:text-5xl leading-relaxed font-content">Latest Arrivals</h1>
+          <div className=" flex items-center gap-2">
+            <p className=" font-semibold text-sm md:text-base font-smallHeading">SHOP NOW</p>
+            <p className="w-8 md:w-11 h-[1px] bg-[#414141]"></p>
 
-          <p className=" text-[2.4rem]">
-            Latest Arrivals
-          </p>
+          </div>
 
-          <p className=" flex items-center">
-            <span>SHOP NOW</span>
-            <span className="w-10 border-black ml-2 border-[1px] "></span>
-          </p>
         </div>
 
       </div>
 
-      {/* Right Section  */}
-      <div className="md:w-6/12 w-full">
-        <img src={assets.hero_img} alt="heroImage" />
-      </div>
+      {/* Hero Right Side  */}
+      <img src={assets.hero_img} alt="img" className="w-full sm:w-1/2" />
+
     </div>
   )
 }

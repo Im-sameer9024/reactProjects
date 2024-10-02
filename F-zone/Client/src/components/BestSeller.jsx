@@ -1,42 +1,41 @@
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { setBestSeller } from "../redux/fetures/cartSlice"
-import ProductItem from "./ProductItem"
+import { useContext, useEffect, useState } from "react"
+import { ShopContext } from "../Context/ShopContext"
+import Title from "./Title";
+import ProductItem from "./ProductItem";
 
-export default function BestSeller() {
+export default function Bestseller() {
 
-  const products = useSelector((state) => state.cart.products)
-
-  const bestSeller = useSelector((state) => state.cart.bestSeller)
-
-  const dispatch = useDispatch()
+  const { products } = useContext(ShopContext)
+  const [bestSeller, setBestSeller] = useState([]);
 
   useEffect(() => {
-    const bestProducts = products.filter((item) => (item.bestseller));
-    dispatch(setBestSeller(bestProducts.slice(0,5)))
+    const bestProduct = products.filter((item) =>{
+      return item.bestseller
+    })
 
-  }, [products, dispatch])
+    setBestSeller(bestProduct.slice(0, 5))
+  }, [products])
 
   return (
-    <div className=" w-10/12 mx-auto my-[4rem]">
-
-      <div>
-        <p className=" flex items-center justify-center text-[2.4rem] font-smallHeading">
-          <span>BEST <b>SELLER</b></span>
-          <span className="w-10 border-black ml-2 border-[1px] "></span>
+    <div className="my-10">
+      <div className=" text-center text-3xl py-8">
+        <Title text1={"BEST"} text2={"SELLERS"} />
+        <p className=" w-3/4 m-auto text-xs sm:text-sm md:text-base text-gray-600 font-content">
+          Good clothes are more than just fabric; they reflect style, comfort, and quality. At <b>F-ZONE</b>, we believe that the best clothing not only looks great but feels even better. Our collection is crafted with care, using premium materials that ensure durability while maintaining a timeless, fashionable appeal. Whether you&#39;re dressing for a special occasion or everyday wear, our pieces are designed to fit perfectly and make you feel confident. Discover clothes that combine elegance, comfort, and quality at <b>F-ZONE</b>, where fashion meets craftsmanship.
         </p>
-        <p className=" text-center font-content">Discover our best-selling clothing pieces, loved for their exceptional quality, style, and comfort. From timeless wardrobe staples to the latest fashion trends, these top picks are must-haves for every season. Crafted with premium fabrics and designed to elevate your look, our best-sellers combine versatility with on-trend appeal. Shop now and find out why these styles are customer favorites!</p>
       </div>
 
-
-      <div className=" grid grid-cols-5 my-[3rem] gap-[2rem]">
+      <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
         {
-          bestSeller.map((item,index) =>{
+
+          bestSeller.map((item, index) => {
             return (
-              <ProductItem key={index} id={item._id} price={item.price} name={item.name} image={item.image[0]}  />
+              <ProductItem key={index} id={item._id} name={item.name} image={item.image} price={item.price} />
             )
           })
+
         }
+
       </div>
 
     </div>

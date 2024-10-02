@@ -1,34 +1,36 @@
-import { Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home/Home'
-import Collection from './Pages/Collections/Collection'
-import About from "./Pages/About/About"
-import Contact from './Pages/Contact/Contact'
-import Product from "./Pages/Products/Products"
-import Cart from './Pages/Cart/Cart'
-import Login from './Pages/Login/Login'
-import PlaceOrder from './Pages/PlaceOrder/PlaceOrder'
-import Order from './Pages/Orders/Order'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-
+import { Route, Routes } from "react-router-dom";
+import Home from "./Pages/Home";
+import Collection from "./Pages/Collection";
+import About from "./Pages/About";
+import Contact from "./Pages/Contact";
+import Product from "./Pages/Product";
+import Cart from "./Pages/Cart";
+import Login from "./Pages/Login";
+import PlaceOrder from "./Pages/PlaceOrder";
+import Orders from "./Pages/Orders";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import SearchBar from "./components/SearchBar";
 
 export default function App() {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/collection' element={<Collection />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/contact' element={<Contact />} />
-        <Route path='/about' element={<Product />} />
-        <Route path='/about' element={<Cart />} />
-        <Route path='/about' element={<Login />} />
-        <Route path='/about' element={<PlaceOrder />} />
-        <Route path='/about' element={<Order />} />
-      </Routes>
-      <Footer/>
+    <div className=" px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] ">
 
-    </>
+    <Navbar/>
+   <SearchBar/>
+   <Routes>
+    <Route path="/" element={<Home/>} />
+    <Route path="/collection" element={<Collection/>} />
+    <Route path="/about" element={<About/>} />
+    <Route path="/contact" element={<Contact/>} />
+    <Route path="/product/:productId" element={<Product/>} />
+    <Route path="/cart" element={<Cart/>} />
+    <Route path="/login" element={<Login/>} />
+    <Route path="/place-order" element={<PlaceOrder/>} />
+    <Route path="/orders" element={<Orders/>} />
+   </Routes>
+<Footer/>
+
+    </div>
   )
 }

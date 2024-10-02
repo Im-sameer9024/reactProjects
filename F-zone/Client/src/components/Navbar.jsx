@@ -1,150 +1,104 @@
-import { Link, NavLink } from 'react-router-dom'
-import { assets } from '../assets/assets.js'
-import { FaArrowLeft } from "react-icons/fa6";
-import { useDispatch, useSelector } from 'react-redux';
-import { setVisible } from '../redux/fetures/cartSlice.js';
-import { useEffect, useState } from 'react';
-
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { assets } from '../assets/assets'
+import { useContext, useEffect, useState } from 'react'
+import { IoIosArrowBack } from "react-icons/io";
+import { ShopContext } from '../Context/ShopContext';
 
 export default function Navbar() {
 
-  const visible = useSelector((state) => state.cart.visible)
-  const dispatch = useDispatch()
+  const [visible, setVisible] = useState(false)
+  const [searchIcon, setSearchIcon] = useState(false)
 
-  const [bgColor, setBgColor] = useState("bg-transparent");
+  const { setShowSearch, getCartCount } = useContext(ShopContext)
+
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setBgColor("bg-white shadow-md");
-      } else {
-        setBgColor("bg-transparent");
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    if (location.pathname.includes('collection')) {
+      setSearchIcon(true)
+    } else {
+      setSearchIcon(false)
+    }
+  }, [location])
 
   return (
-    <div className={` w-[100vw]  sticky top-0 ${bgColor}`}>
 
-      <nav className=' w-11/12 md:w-10/12 mx-auto flex justify-between items-center'>
-        {/* Logo  */}
-        <Link to="/">
-          <img src={assets.logo} alt="logo" width="60px" />
-        </Link>
+    <div className="flex items-center justify-between py-5 font-medium ">
 
-        {/* Pages  */}
-        <ul className=' hidden font-smallHeading md:flex gap-[2rem]'>
-          <li>
-            <NavLink to="/">
-              HOME
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/collection">
-              COLLECTION
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/about">
-              ABOUT
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/contact">
-              CONTACT
-            </NavLink>
-          </li>
-        </ul>
+      {/* Logo  */}
+      <Link to="/">
+        <img src={assets.logo} alt="" className='w-20' />
+      </Link>
 
-        {/* Search cart and user  */}
 
-        <div className=' flex gap-[1.3rem] items-center relative py-2'>
-          {/* search  */}
-          <div className='cursor-pointer'>
-            <img src={assets.search_icon} alt="search" className='w-5' />
-          </div>
+      {/* Pages  */}
+      <ul className=' hidden sm:flex gap-5 text-sm text-gray-700 font-heading'>
 
-          {/* user  */}
-          <div className='group cursor-pointer'>
-            <img src={assets.profile_icon} alt="" className='w-5 group' />
-            <div className=' hidden group-hover:block  cursor-pointer bg-blue-50 rounded-md left-[-29px] top-[2.1rem]] absolute shadow-lg px-3 py-2'>
-              <ul className='w-full flex flex-col font-smallHeading '>
-                <li className='hover:font-semibold'>My Profile</li>
-                <li className='hover:font-semibold'>Orders</li>
-                <li className='hover:font-semibold'>Log Out</li>
-              </ul>
-            </div>
-          </div>
+        {
+          ['HOME', 'COLLECTION', 'ABOUT', 'CONTACT'].map((link, index) => {
+            return (
+              <NavLink key={index} to={`/${link == 'HOME' ? "" : link.toLowerCase()}`} className="flex flex-col items-center gap-1">
+                <p>{link}</p>
+                <hr className=' w-2/4 border-none h-[2.5px] bg-gray-700 hidden' />
+              </NavLink>
+            )
+          })
+        }
+      </ul>
 
-          {/* cart  */}
-          <div className='cursor-pointer relative'>
-            <img src={assets.cart_icon} alt="" className='w-5' />
-            <div className='w-4 h-4 text-[0.7rem] flex items-center justify-center absolute bg-black text-white rounded-full bottom-[-5px] right-[-5px] font-bold'>
-              10
-            </div>
-          </div>
 
-          {/* menu Icons for mobile screen  */}
-          <div className=' block md:hidden' onClick={() => dispatch(setVisible(true))}>
-            <img src={assets.menu_icon} alt="icon" className='w-5' />
-          </div>
+      {/* search cart profile  */}
+      <div className=' flex items-center gap-6'>
 
+        {/* Search icon  */}
+        <div className={`${searchIcon ? "block" : "hidden"}`}>
+          <img onClick={() => setShowSearch(true)} src={assets.search_icon} alt="" className='w-5 cursor-pointer' />
         </div>
 
-      </nav>
-      <div className={` bg-slate-50 overflow-hidden transition-all ease-linear duration-300 absolute top-0 right-0 bottom-0 ${visible ? "w-[80%]" : "w-0"} h-screen `}>
-        <button onClick={() => dispatch(setVisible(false))} className=' flex items-center gap-2 relative top-2 left-2 px-2'>
-          <span>
-            <FaArrowLeft />
-          </span>
-          Back
-        </button>
+        {/* Profile icon  */}
+        <div className='group relative'>
+          <Link to="/login">
+            <img src={assets.profile_icon} alt="" className='w-5 cursor-pointer' />
+          </Link>
+          <div className=' group-hover:block hidden absolute dropdown-menu right-0 pt-2 '>
+            <div className=' flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded '>
+              <p className=' cursor-pointer hover:text-black'>My Profile</p>
+              <p className=' cursor-pointer hover:text-black'>Orders</p>
+              <p className=' cursor-pointer hover:text-black'>Log out</p>
+            </div>
+          </div>
+        </div>
 
-        {/* Home  */}
+        {/* Cart  */}
 
-        <div className=' mt-4 w-full z-10'>
-          <ul className=' w-full font-smallHeading md:flex gap-[2rem]'>
-            <li onClick={() => dispatch(setVisible(false))} className=' hover:font-semibold'>
-              <hr className='border mb-2' />
-              <Link to="/" className='pl-4'>
-                HOME
-              </Link>
-            </li>
-
-            {/* Collection  */}
-            <li onClick={() => dispatch(setVisible(false))} className=' hover:font-semibold'>
-              <hr className='border mb-2' />
-              <Link to="/collection" className='pl-4'>
-                COLLECTION
-              </Link>
-            </li>
+        <Link to="/cart" className=' relative'>
+          <img src={assets.cart_icon} alt="log" className='w-5 min-w-5' />
+          <p className=' absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px] '>{getCartCount()}</p>
+        </Link>
 
 
-            {/* About  */}
-            <li onClick={() => dispatch(setVisible(false))} className=' hover:font-semibold'>
-              <hr className='border mb-2' />
+        {/* menu icons for mobile screen  */}
+        <img onClick={() => setVisible(true)} src={assets.menu_icon} alt="" className='w-5 cursor-pointer sm:hidden' />
 
-              <Link to="/about" className='pl-4'>
-                ABOUT
-              </Link>
-            </li>
+      </div>
 
-            {/* Contact  */}
-            <li onClick={() => dispatch(setVisible(false))} className=' hover:font-semibold'>
-              <hr className='border mb-2' />
-              <Link to="/contact" className='pl-4'>
-                CONTACT
-              </Link>
-              <hr className='border mb-2' />
-            </li>
-          </ul>
+      {/* sideBar menu for mobile screen  */}
+      <div className={` absolute top-0 right-0 bottom-0 overflow-hidden bg-white duration-1000 ease transition-all ${visible ? "w-full" : "w-0"} `}>
 
+        <div className=' flex flex-col text-gray-600'>
+          <div onClick={() => setVisible(false)} className=' flex items-center gap-1 p-3 cursor-pointer '>
+            <span> <IoIosArrowBack /> </span>
+            <p className='font-heading'>BACK</p>
+          </div>
+          {
+            ['HOME', 'COLLECTION', 'ABOUT', 'CONTACT'].map((link, index) => {
+              return (
+                <NavLink onClick={() => setVisible(false)} key={index} to={`/${link == 'HOME' ? "" : link.toLowerCase()}`} className="py-2 pl-6 border hover:text-black hover:font-bold">
+                  {link}
+                </NavLink>
+              )
+            })
+          }
         </div>
       </div>
 
