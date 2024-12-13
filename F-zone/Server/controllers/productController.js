@@ -31,14 +31,14 @@ exports.addProduct = async (req, res) => {
       date: Date.now()
     }
 
-    console.log(productData)
 
     const product = new Product(productData)
     await product.save()
 
-    res.json({
-      success:true,
-      message:"Product added"
+    res.status(200).json({
+      success: true,
+      message: "Product added",
+      product
     })
 
 
@@ -53,10 +53,22 @@ exports.addProduct = async (req, res) => {
 //<----------------------------- get All products------------------ >
 
 
-exports.allProducts = async () => {
+exports.allProducts = async (req,res) => {
   try {
 
+    const products = await Product.find({});
+
+    res.status(200).json({
+      success: true,
+      products,
+    })
+
   } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Network Issues"
+    })
 
   }
 }
@@ -64,10 +76,25 @@ exports.allProducts = async () => {
 
 //<----------------------------- remove product ------------------ >
 
-exports.removeProduct = async () => {
+exports.removeProduct = async (req,res) => {
   try {
 
+    const id = req.params.id
+    await Product.findByIdAndDelete({ _id: id })
+
+    res.status(200).json({
+      success: true,
+      message: "Product removed"
+    })
+
+
   } catch (error) {
+    console.log(error)
+
+    return res.status(500).json({
+      success: false,
+      message: "Network Issue"
+    })
 
   }
 }
@@ -75,10 +102,23 @@ exports.removeProduct = async () => {
 
 //<----------------------------- get Single Product  ------------------ >
 
-exports.singleProduct = async () => {
+exports.singleProduct = async (req,res) => {
   try {
 
-  } catch (error) {
+    const { id } = req.params
+    const data = await Product.findById({ _id: id })
 
+    res.status(200).json({
+      success: true,
+      message: "Product is got",
+      data,
+    })
+
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      success: false,
+      message: "Network Issues"
+    })
   }
 }

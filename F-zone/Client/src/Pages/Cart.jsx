@@ -6,28 +6,32 @@ import CartTotal from "../components/CartTotal";
 
 export default function Cart() {
 
-  const { products, currency, cartItems, updateQuantity,navigate } = useContext(ShopContext)
+  const { products, currency, cartItems, updateQuantity, navigate } = useContext(ShopContext)
 
   const [cartData, setCartData] = useState([]);
 
   useEffect(() => {
 
-    const tempData = [];
+    if (products.length > 0) {
+      const tempData = [];
 
-    for (let items in cartItems) {
-      for (let item in cartItems[items]) {
-        if (cartItems[items][item] > 0) {
-          tempData.push({
-            _id: items,
-            size: item,
-            quantity: cartItems[items][item]
-          })
+      for (let items in cartItems) {
+        for (let item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+            tempData.push({
+              _id: items,
+              size: item,
+              quantity: cartItems[items][item]
+            })
+          }
         }
       }
+
+      setCartData(tempData)
     }
 
-    setCartData(tempData)
-  }, [cartItems])
+
+  }, [cartItems, products])
 
   return (
     <div className=" border-t pt-14">
@@ -70,7 +74,7 @@ export default function Cart() {
         <div className=" w-full sm:w-[450px]">
           <CartTotal />
           <div className=" w-full text-end">
-           <button onClick={() => navigate('/place-order')} className=" bg-black text-white text-sm px-8 my-8 py-3 font-smallHeading">PROCEED TO CHECKOUT</button>
+            <button onClick={() => navigate('/place-order')} className=" bg-black text-white text-sm px-8 my-8 py-3 font-smallHeading">PROCEED TO CHECKOUT</button>
 
           </div>
 

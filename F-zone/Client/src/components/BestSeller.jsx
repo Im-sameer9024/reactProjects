@@ -15,7 +15,7 @@ export default function Bestseller() {
 
     setBestSeller(bestProduct.slice(0, 5))
   }, [products])
-
+ 
   return (
     <div className="my-10">
       <div className=" text-center text-3xl py-8">

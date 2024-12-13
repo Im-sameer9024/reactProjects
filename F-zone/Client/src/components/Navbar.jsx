@@ -1,6 +1,6 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { assets } from '../assets/assets'
-import { useContext, useEffect, useState } from 'react'
+import {  useContext, useEffect, useState } from 'react'
 import { IoIosArrowBack } from "react-icons/io";
 import { ShopContext } from '../Context/ShopContext';
 
@@ -9,9 +9,17 @@ export default function Navbar() {
   const [visible, setVisible] = useState(false)
   const [searchIcon, setSearchIcon] = useState(false)
 
-  const { setShowSearch, getCartCount } = useContext(ShopContext)
+  const { setShowSearch, getCartCount, navigate, token, setToken, setCartItems } = useContext(ShopContext)
 
   const location = useLocation();
+
+  const logout = () => {
+    navigate('/login');
+    localStorage.removeItem('token')
+    setToken('')
+    setCartItems({})
+
+  }
 
   useEffect(() => {
     if (location.pathname.includes('collection')) {
@@ -20,6 +28,8 @@ export default function Navbar() {
       setSearchIcon(false)
     }
   }, [location])
+
+
 
   return (
 
@@ -57,16 +67,21 @@ export default function Navbar() {
 
         {/* Profile icon  */}
         <div className='group relative'>
-          <Link to="/login">
-            <img src={assets.profile_icon} alt="" className='w-5 cursor-pointer' />
-          </Link>
-          <div className=' group-hover:block hidden absolute dropdown-menu right-0 pt-2 '>
-            <div className=' flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded '>
-              <p className=' cursor-pointer hover:text-black'>My Profile</p>
-              <p className=' cursor-pointer hover:text-black'>Orders</p>
-              <p className=' cursor-pointer hover:text-black'>Log out</p>
+
+          <img onClick={token ? null : navigate("/login")} src={assets.profile_icon} alt="" className='w-5 cursor-pointer' />
+
+          {/* Dropdown menu  */}
+          {
+            token && <div className=' group-hover:block hidden absolute dropdown-menu right-0 pt-2 '>
+              <div className=' flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded '>
+                <p className=' cursor-pointer hover:text-black'>My Profile</p>
+                <p className=' cursor-pointer hover:text-black'>Orders</p>
+                <p onClick={logout} className=' cursor-pointer hover:text-black'>Log out</p>
+              </div>
             </div>
-          </div>
+          }
+
+
         </div>
 
         {/* Cart  */}

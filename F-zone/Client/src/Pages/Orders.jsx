@@ -1,10 +1,48 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { ShopContext } from "../Context/ShopContext"
 import Title from "../components/Title"
+import axios from 'axios'
 
 export default function Orders() {
 
-  const { products, currency } = useContext(ShopContext)
+  const { token, currency } = useContext(ShopContext)
+
+  const [orderData, setorderData] = useState([])
+
+  const loadOrderData = async () => {
+    try {
+      if (token) {
+        return null
+      }
+
+      const response = await axios.post("/api/order/userorders", {}, { headers: { token: token } })
+
+      if (response.data.success) {
+        let allOrdersItem = []
+        response.data.orders.map(order => {
+          order.items.map((item) => {
+            item['status'] = order.status
+            item['payment'] = order.payment
+            item['paymentMethod'] = order.paymentMethod
+            item['date'] = order.date
+            allOrdersItem.push(item);
+          }
+          )
+        })
+        console.log(allOrdersItem)
+      }
+
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (token) {
+      loadOrderData();
+    }
+  }, [token]);
 
   return (
     <div className=" border-t pt-16">
@@ -16,7 +54,7 @@ export default function Orders() {
 
       <div className=" font-smallHeading">
         {
-          products.slice(1, 4).map((item, index) => (
+          orderData.map((item, index) => (
             <div key={index} className=" py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className=" flex items-start gap-6 text-sm">
 
@@ -26,11 +64,11 @@ export default function Orders() {
                     {item.name}</p>
                   <div className=" flex items-center gap-3 mt-2 text-base text-gray-700">
                     <p className=" text-lg ">{currency}{item.price}</p>
-                    <p>Quantity:1</p>
-                    <p>Size: M</p>
+                    <p>Quantity:{item.quantity}</p>
+                    <p>Size:{item.size}</p>
 
                   </div>
-                  <p className=" mt-2">Date: <span className=" text-gray-400 ">25, Jul, 2024</span></p>
+                  <p className=" mt-2">Date: <span className=" text-gray-400 ">{item.date}</span></p>
                 </div>
 
               </div>

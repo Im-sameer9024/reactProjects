@@ -1,18 +1,99 @@
+/* eslint-disable no-case-declarations */
 import { useContext, useState } from "react";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
 import Title from "../components/Title";
 import { ShopContext } from "../Context/ShopContext";
+import { toast } from 'react-toastify'
+import axios from 'axios'
 
 export default function PlaceOrder() {
 
   const [method, setMethod] = useState('cod');
 
-  const { navigate } = useContext(ShopContext)
+
+  const { navigate, token, cartItems, setCartItems, getCartAmount, deliver_fee, products } = useContext(ShopContext)
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: '',
+    phone: '',
+  })
+
+  const onChangeHandler = (e) => {
+
+    const { name, value } = e.target
+
+    setFormData( (prev) =>( { ...prev, [name]: value }))
+
+  }
+
+  const onsubmitHandler = async (e) => {
+
+    e.preventDefault()
+    try {
+      let orderItems = []
+
+      for (let items in cartItems) {
+        for (let item in cartItems[items]) {
+          if (cartItems[items][item] > 0) {
+
+            const itemInfo = structuredClone(
+              products.find((product) => product._id === items)
+            )
+
+            if (itemInfo) {
+              itemInfo.size = item.size,
+                itemInfo.quantity = cartItems[items][item]
+              orderItems.push(itemInfo)
+            }
+
+          }
+        }
+      }
+
+      let orderData = {
+        address: formData,
+        items: orderItems,
+        amount: getCartAmount() + deliver_fee
+      }
+
+      switch (method) {
+
+        case 'cod':
+          const response = await axios.post("/api/order/place", orderData, { headers: { token } })
+
+          if (response) {
+            setCartItems({})
+            navigate("/orders")
+          } else {
+            toast.error('Failed to place order')
+          }
+
+          break;
+
+        default:
+          break;
+
+      }
+
+    } catch (error) {
+      console.log(error)
+
+    }
+
+  }
+
 
 
   return (
-    <div className=" flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t ">
+    <form onSubmit={onsubmitHandler} className=" flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t ">
 
       {/*----------- Left side  -------------*/}
       <div className=" flex flex-col gap-4 w-full sm:max-w-[480px]">
@@ -23,29 +104,32 @@ export default function PlaceOrder() {
         </div>
         <div className=" flex gap-3">
 
-          <input type="text" placeholder="First Name" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
-          <input type="text" placeholder="Last Name" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+          <input type="text" placeholder="First Name" onChange={onChangeHandler} name="firstName" value={formData.firstName} className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+
+          <input type="text" placeholder="Last Name" onChange={onChangeHandler} name="lastName" value={formData.lastName} className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
 
         </div>
 
-        <input type="email" placeholder="Email address" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+        <input type="email" onChange={onChangeHandler} value={formData.email} name="email" placeholder="Email address" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
 
-        <input type="text" placeholder="Street" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+        <input type="text" name="street" onChange={onChangeHandler} value={formData.street} placeholder="Street" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
 
         <div className=" flex gap-3">
 
-          <input type="text" placeholder="City" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
-          <input type="text" placeholder="State" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+          <input type="text" name="city" onChange={onChangeHandler} value={formData.city} placeholder="City" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+
+          <input type="text" name="state" onChange={onChangeHandler} value={formData.state} placeholder="State" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
 
         </div>
 
         <div className=" flex gap-3">
 
-          <input type="number" placeholder="Zip Code" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
-          <input type="text" placeholder="Country" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+          <input type="number" name="zipCode" onChange={onChangeHandler} value={formData.zipCode} placeholder="Zip Code" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+
+          <input type="text" name="country" onChange={onChangeHandler} value={formData.country} placeholder="Country" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
 
         </div>
-        <input type="number" placeholder="Phone" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
+        <input type="number" name="phone" onChange={onChangeHandler} value={formData.phone} placeholder="Phone" className=" border border-gray-300 rounded py-1.5 px-3.5 w-full " />
 
 
 
@@ -100,6 +184,6 @@ export default function PlaceOrder() {
         </div>
 
       </div>
-    </div>
+    </form>
   )
 }

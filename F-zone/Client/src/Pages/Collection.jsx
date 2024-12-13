@@ -85,7 +85,7 @@ export default function Collection() {
 
   useEffect(() => {
     applyFilter()
-  }, [category, subCategory, applyFilter])
+  }, [category, subCategory, applyFilter,products])
 
   // useEffect(() => {
   //   setFilterProducts(products)
